@@ -35,6 +35,10 @@ async function onRecord(record, mappings) {
       data.trigger = record[colId2];
       data.setSelectedRows = record[colId3];
       data.status = `Selected record:\n${tableId}.${colId} at id ${record.id}.\nActions to be applied when trigger fires:\n${data.userActions}`;
+      data.status = encodeURIComponent({
+        'triggerNow': true,
+        'setSelectedRows': [1, 2]
+      });
       urlparams = new URLSearchParams(window.location.search);
       //new URLSearchParams(window.location.search).get('myparam')
       if (data.setSelectedRows) {
