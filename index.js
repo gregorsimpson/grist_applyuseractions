@@ -37,7 +37,7 @@ function handleError(err) {
   }
 }*/
 
-function onRecord(record, mappings) {
+async function onRecord(record, mappings) {
   data.status = 'Executing actions...';
   //data.result = null;
   try {
@@ -64,13 +64,9 @@ function onRecord(record, mappings) {
   }
 }
 
-ready(function() {
-  grist.ready({columns: [
-    {name: column, title: "User Actions (list)"},
-    {name: column2, title: "Trigger (bool)"}
-  ]});
+ready(async function() {
   // Update the widget anytime the document data changes.
-  grist.onRecord(onRecord);
+  await grist.onRecord(onRecord);
   grist.on('message', (e) => {
     if (e.tableId) { tableId = e.tableId; }
   });
@@ -79,4 +75,8 @@ ready(function() {
     el: '#app',
     data: data
   });
+  grist.ready({columns: [
+    {name: column, title: "User Actions (list)"},
+    {name: column2, title: "Trigger (bool)"}
+  ]});
 });
