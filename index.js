@@ -35,8 +35,22 @@ async function onRecord(record, mappings) {
       data.trigger = record[colId2];
       data.setSelectedRows = record[colId3];
       data.status = `Selected record:\n${tableId}.${colId} at id ${record.id}.\nActions to be applied when trigger fires:\n${data.userActions}`;
+      urlparams = new URLSearchParams(window.location.search);
+      //new URLSearchParams(window.location.search).get('myparam')
       if (data.setSelectedRows) {
         grist.setSelectedRows(data.setSelectedRows);
+      }
+      if (urlparams.get('auawidget')) {
+        try {
+          params = JSON.parse(urlparams.get('auawidget'));
+          if (params.setSelectedRows) {
+            grist.setSelectedRows(params.setSelectedRows);
+          }
+          if (params.triggerNow) {
+            data.status = 'trigger by url is TRVE';
+          }
+        } catch (e) {
+        }
       }
       if (data.trigger == true) {
         //data.status = `FIRE! dump: tableId="${tableId}" colId="${colId}" colId2="${colId2}" id="${record['id']}" trigger="${data.trigger}"`;
