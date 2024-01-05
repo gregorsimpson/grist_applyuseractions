@@ -7,11 +7,13 @@ function ready(fn) {
 }
 
 const column = 'UserActions';
+const column2 = 'Trigger';
 let app = undefined;
 let data = {
   status: 'waiting',
   result: null,
-  input: null
+  input: null,
+  trigger: false
   /*input: {
     actions: null,
   }*/
@@ -42,6 +44,9 @@ function onRecord(row, mappings) {
     if (!row.hasOwnProperty(column)) {
       throw new Error(`Need a visible column named "${column}". You can map a custom column in the Creator Panel.`);
     }
+    if (!row.hasOwnProperty(column2)) {
+      throw new Error(`Need a visible column named "${column2}". You can map a custom column in the Creator Panel.`);
+    }
     /*const keys = ['actions'];
     if (!row[column] || keys.some(k => !row[column][k])) {
       const allKeys = keys.map(k => JSON.stringify(k)).join(", ");
@@ -51,6 +56,7 @@ function onRecord(row, mappings) {
         `Missing keys: ${missing}`);
     }*/
     data.input = row[column];
+    data.trigger = row[column2];
   } catch (err) {
     handleError(err);
   }
@@ -58,7 +64,10 @@ function onRecord(row, mappings) {
 
 ready(function() {
   // Update the widget anytime the document data changes.
-  grist.ready({columns: [{name: column, title: "UserActions"}]});
+  grist.ready({columns: [
+    {name: column, title: "User Actions (list)"},
+    {name: column2, title: "Trigger (bool)"}
+  ]});
   grist.onRecord(onRecord);
 
   Vue.config.errorHandler = handleError;
