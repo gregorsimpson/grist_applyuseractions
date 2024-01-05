@@ -50,6 +50,7 @@ async function onRecord(record, mappings) {
             data.status = 'trigger by url is TRVE';
           }
         } catch (e) {
+          throw new Error(e);
         }
       }
       if (data.trigger == true) {
