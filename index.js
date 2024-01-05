@@ -53,13 +53,16 @@ function onRecord(record, mappings) {
           trigger: false
         }
       }
-      if (data.trigger == true) {
+      if (data.trigger) {
+        data.result = "trigger is TRVETHY";
+      }
+      //if (data.trigger == true) {
         data.status = `dump: table="${grist.selectedTable}" tableId="${tableId}" colId="${colId}" update="${grist.selectedTable.update}" id="${record['id']}"`;
         /*grist.docApi.applyUserActions(['UpdateRecord', tableId, record.id {
           trigger: false
         }]);*/
         //grist.selectedTable.update(records);
-      }
+      //}
     } else {
       // Helper returned a null value. It means that not all
       // required columns were mapped.
