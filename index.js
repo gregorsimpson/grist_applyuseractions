@@ -44,7 +44,8 @@ function onRecord(record, mappings) {
     const mapped = grist.mapColumnNames(record);
     // First check if all columns were mapped.
     if (mapped) {
-      colId = Object.keys(record)[0];
+      colId = mappings[column];
+      colId2 = mappings[column2];
       data.input = record[column];
       data.trigger = record[column2];
       let records = {
@@ -53,11 +54,8 @@ function onRecord(record, mappings) {
           trigger: false
         }
       }
-      if (data.trigger) {
-        data.result = "trigger is TRVETHY";
-      }
       //if (data.trigger == true) {
-        data.status = `dump: table="${grist.selectedTable}" tableId="${tableId}" colId="${colId}" update="${grist.selectedTable.update}" id="${record['id']}"`;
+        data.status = `dump: tableId="${tableId}" colId="${colId}" colId2="${colId2}" id="${record['id']}" trigger="${data.trigger}"`;
         /*grist.docApi.applyUserActions(['UpdateRecord', tableId, record.id {
           trigger: false
         }]);*/
