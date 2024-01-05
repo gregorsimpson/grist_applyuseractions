@@ -40,9 +40,9 @@ async function onRecord(record, mappings) {
       if (data.setSelectedRows) {
         grist.setSelectedRows(data.setSelectedRows);
       }
-      if (urlparams.get('auawidget')) {
+      if (urlparams.has('auawidget')) {
         try {
-          params = JSON.parse(urlparams.get('auawidget'));
+          params = JSON.parse(decodeURIComponent(urlparams.get('auawidget')));
           if (params.setSelectedRows) {
             grist.setSelectedRows(params.setSelectedRows);
           }
