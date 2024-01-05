@@ -36,7 +36,7 @@ async function applyActions() {
   }
 }
 
-function onRecord(row, mappings) {
+/*function onRecord(row, mappings) {
   try {
     data.status = '';
     data.result = null;
@@ -47,7 +47,7 @@ function onRecord(row, mappings) {
     }
     if (!row.hasOwnProperty(column2)) {
       throw new Error(`Need a visible column named "${column2}". You can map a custom column in the Creator Panel.`);
-    }
+    }*/
     /*const keys = ['actions'];
     if (!row[column] || keys.some(k => !row[column][k])) {
       const allKeys = keys.map(k => JSON.stringify(k)).join(", ");
@@ -56,8 +56,28 @@ function onRecord(row, mappings) {
       throw new Error(`"${gristName}" cells should contain an object with keys ${allKeys}. ` +
         `Missing keys: ${missing}`);
     }*/
-    data.input = row[column];
+    /*data.input = row[column];
     data.trigger = row[column2];
+  } catch (err) {
+    handleError(err);
+  }
+}*/
+
+function onRecord(record, mappings) {
+  data.status = '';
+  data.result = null;
+  try {
+    const mapped = grist.mapColumnNames(record);
+    // First check if all columns were mapped.
+    if (mapped) {
+      data.input = record[column];
+      data.trigger = record[column2];
+      data.status = `dump table: "${grist.selectedTable}"`;
+    } else {
+      // Helper returned a null value. It means that not all
+      // required columns were mapped.
+      throw new Error(`Please map all required columns.`);
+    }
   } catch (err) {
     handleError(err);
   }
