@@ -27,6 +27,7 @@ function handleError(err) {
 async function applyActions() {
   data.results = "Working...";
   try {
+    //await grist.docApi.ApplyUserActions(['UpdateRecord', TABLENAME??, {'TRIGGERCOLUMN_NAME???': false}]);
     //await grist.docApi.applyUserActions(data.input.actions);
     await grist.docApi.applyUserActions(data.input);
     data.status = 'Done';
