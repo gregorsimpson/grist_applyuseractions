@@ -53,8 +53,8 @@ async function onRecord(record, mappings) {
         await grist.docApi.applyUserActions([['UpdateRecord', tableId, record.id, {
           [colId2]: false
         }]]);
-        data.status = `Applying actions...`;
-        await grist.docApi.applyUserActions(data.input);
+        data.status = `Applying actions: <pre>${data.input}</pre>`;
+        //await grist.docApi.applyUserActions(data.input);
       }
     } else {
       // Helper returned a null value. It means that not all
