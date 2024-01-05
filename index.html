@@ -22,8 +22,7 @@
         </template>
       </div>
       <template v-else>
-        <div class="description">{{ input.description }}</div>
-        <button class="button" v-on:click="applyActions">{{ input.button }}</button>
+        <div class="description">The following user actions will be applied: {{input.actions}}</div>
         <div class="result" v-if="result">{{ input.result }}</div>
       </template>
     </div>
