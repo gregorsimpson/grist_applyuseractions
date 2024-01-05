@@ -34,7 +34,7 @@ async function onRecord(record, mappings) {
       data.userActions = record[colId];
       data.trigger = record[colId2];
       data.setSelectedRows = record[colId3];
-      data.status = `Selected record: ${tableId}.${colId} at id ${record.id}.\nActions to be applied when trigger fires:\n${data.userActions}`;
+      data.status = `Selected record:\n${tableId}.${colId} at id ${record.id}.\nActions to be applied when trigger fires:\n${data.userActions}`;
       if (data.setSelectedRows) {
         grist.setSelectedRows(data.setSelectedRows);
       }
