@@ -50,7 +50,7 @@ function onRecord(record, mappings) {
       data.trigger = record[colId2];
       if (data.trigger == true) {
         data.status = `TRIGGERED! dump: tableId="${tableId}" colId="${colId}" colId2="${colId2}" id="${record['id']}" trigger="${data.trigger}"`;
-        grist.docApi.applyUserActions(['UpdateRecord', tableId, record.id {
+        grist.docApi.applyUserActions(['UpdateRecord', tableId, record.id, {
           trigger: false
         }]);
       }
