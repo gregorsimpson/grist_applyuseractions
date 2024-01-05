@@ -50,9 +50,9 @@ async function onRecord(record, mappings) {
       data.trigger = record[colId2];
       if (data.trigger == true) {
         data.status = `FIRE! dump: tableId="${tableId}" colId="${colId}" colId2="${colId2}" id="${record['id']}" trigger="${data.trigger}"`;
-        await grist.docApi.applyUserActions(['UpdateRecord', tableId, record.id, {
+        await grist.docApi.applyUserActions([['UpdateRecord', tableId, record.id, {
           [colId2]: false
-        }]);
+        }]]);
       }
     } else {
       // Helper returned a null value. It means that not all
