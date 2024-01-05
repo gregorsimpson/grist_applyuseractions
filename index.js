@@ -72,7 +72,13 @@ function onRecord(record, mappings) {
     if (mapped) {
       data.input = record[column];
       data.trigger = record[column2];
-      data.status = `dump table: "${grist.selectedTable}"`;
+      let records = {
+        id: record['id'],
+        fields: {
+          test_col: 'test_val'
+        }
+      }
+      data.status = `dump: table="${grist.selectedTable}" update="${grist.selectedTable.update}" id="${record['id']}"`;
     } else {
       // Helper returned a null value. It means that not all
       // required columns were mapped.
