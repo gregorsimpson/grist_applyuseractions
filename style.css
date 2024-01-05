@@ -21,11 +21,12 @@ body {
   margin: 32px 16px;
 }
 
-.description, .result, .button {
+.description {
   margin: 16px 0;
+  font-size: 8pt;
 }
 
-.message {
+.status {
   color: orange;
 }
 
