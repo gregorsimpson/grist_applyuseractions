@@ -21,7 +21,11 @@
         <a href="https://github.com/gristlabs/grist-core/blob/main/documentation/overview.md#changes-to-documents">this</a>
         and
         <a href="https://github.com/gristlabs/grist-core/blob/main/sandbox/grist/useractions.py">this</a>
-        before you proceed!
+        before you proceed!<br />
+        <br />
+        Additionally, this widget may act as a selector for others: It will always (i.e. regardless
+        of the trigger getting fired or not) set any linked widgets' selected rows to the list of IDs
+        specified in the 'Set selected rows' column.
       </div>
       <div class="status" v-if="status">
         <b>Status:</b>
