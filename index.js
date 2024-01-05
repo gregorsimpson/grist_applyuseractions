@@ -26,7 +26,7 @@ function handleError(err) {
 
 async function onRecord(record, mappings) {
   try {
-    const mapped = grist.mapcol_name_actionsNames(record);
+    const mapped = grist.mapColumnNames(record);
     // First check if all columns were mapped.
     if (mapped) {
       colId = mappings[col_name_actions];
@@ -35,16 +35,18 @@ async function onRecord(record, mappings) {
       data.trigger = record[colId2];
       data.status = `Selected record: ${tableId}.${colId} at id ${record.id}.\nActions to be applied when trigger fires:\n${data.userActions}`;
       if (data.trigger == true) {
-        data.status = `FIRE! dump: tableId="${tableId}" colId="${colId}" colId2="${colId2}" id="${record['id']}" trigger="${data.trigger}"`;
+        //data.status = `FIRE! dump: tableId="${tableId}" colId="${colId}" colId2="${colId2}" id="${record['id']}" trigger="${data.trigger}"`;
+        data.status = `Reverting trigger to False...`;
         await grist.docApi.applyUserActions([['UpdateRecord', tableId, record.id, {
           [colId2]: false
         }]]);
-        data.status = `Applying actions: ${data.userActions}`;
+        data.status = `Done. Now applying actions: ${data.userActions}...`;
         await grist.docApi.applyUserActions(data.userActions);
+        data.status = `All done.`;
       }
     } else {
       // Helper returned a null value. It means that not all
-      // required col_name_actionss were mapped.
+      // required columns were mapped.
       throw new Error(`Please map all required columns first.`);
     }
   } catch (err) {
@@ -63,7 +65,7 @@ ready(async function() {
     el: '#app',
     data: data
   });
-  grist.ready({col_name_actionss: [
+  grist.ready({columns: [
     {name: col_name_actions, title: "User Actions (list)"},
     {name: col_name_trigger, title: "Trigger (bool)"}
   ]});
