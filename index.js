@@ -37,7 +37,7 @@ function handleError(err) {
 }*/
 
 function onRecord(record, mappings) {
-  //data.status = '';
+  data.status = 'Executing actions...';
   //data.result = null;
   try {
     const mapped = grist.mapColumnNames(record);
@@ -51,10 +51,11 @@ function onRecord(record, mappings) {
           trigger: false
         }
       }
-      /*if (data.trigger == true) {
+      if (data.trigger == true) {
         data.status = `dump: table="${grist.selectedTable}" update="${grist.selectedTable.update}" id="${record['id']}"`;
-        grist.selectedTable.update(records);
-      }*/
+        //grist.docApi.applyUserActions(['UpdateRecord', 
+        //grist.selectedTable.update(records);
+      }
     } else {
       // Helper returned a null value. It means that not all
       // required columns were mapped.
