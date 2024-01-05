@@ -6,17 +6,16 @@
   }
 }
 
-const col_name_actions = 'UserActions';
-const col_name_trigger = 'Trigger';
+const colName_userActions = 'UserActions';
+const colName_trigger = 'Trigger';
+const colName_setSelectedRows = 'SetSelectedRows';
 var tableId = null;
 let app = undefined;
 let data = {
   status: 'Please select a record.',
   userActions: null,
-  trigger: false
-  /*userActions: {
-    actions: null,
-  }*/
+  trigger: false,
+  setSelectedRows: null
 }
 
 function handleError(err) {
@@ -29,11 +28,16 @@ async function onRecord(record, mappings) {
     const mapped = grist.mapColumnNames(record);
     // First check if all columns were mapped.
     if (mapped) {
-      colId = mappings[col_name_actions];
-      colId2 = mappings[col_name_trigger];
+      colId = mappings[colName_userActions];
+      colId2 = mappings[colName_trigger];
+      colId3 = mappings[colName_setSelectedRows];
       data.userActions = record[colId];
       data.trigger = record[colId2];
+      data.setSelectedRows = record[colId3];
       data.status = `Selected record: ${tableId}.${colId} at id ${record.id}.\nActions to be applied when trigger fires:\n${data.userActions}`;
+      if (data.setSelectedRows) {
+        grist.setSelectedRows(data.setSelectedRows);
+      }
       if (data.trigger == true) {
         //data.status = `FIRE! dump: tableId="${tableId}" colId="${colId}" colId2="${colId2}" id="${record['id']}" trigger="${data.trigger}"`;
         data.status = `Reverting trigger to False...`;
@@ -41,9 +45,8 @@ async function onRecord(record, mappings) {
           [colId2]: false
         }]]);
         data.status = `Done. Now applying actions: ${data.userActions}...`;
-        data.status = await grist.docApi.applyUserActions(data.userActions);
-        //data.status = `All done.`;
-        //grist.setSelectedRows([1337]);
+        await grist.docApi.applyUserActions(data.userActions);
+        data.status = `All done.`;
       }
     } else {
       // Helper returned a null value. It means that not all
@@ -70,8 +73,9 @@ ready(async function() {
     requiredAccess: "full",
     allowSelectBy: true,
     columns: [
-      {name: col_name_actions, title: "User Actions (list)"},
-      {name: col_name_trigger, title: "Trigger (bool)"}
+      {name: colName_userActions, title: "User Actions (list of lists)"},
+      {name: colName_trigger, title: "Trigger (bool)"},
+      {name: colName_setSelectedRows, title: "Set selected rows (list of IDs)"}
     ]
   });
 });
