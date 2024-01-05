@@ -25,7 +25,9 @@
         <br />
         Additionally, this widget may act as a selector for others: It will always (i.e. regardless
         of the trigger getting fired or not) set any linked widgets' selected rows to the list of IDs
-        specified in the 'Set selected rows' column.
+        specified in the 'Set selected rows' column.<br />
+        This functionality can also be triggered by passing an 'auawidget' url parameter with an encoded
+        json object {'triggerNow': true|false, 'setSelectedRows': [1, 2, ...]} in it.
       </div>
       <div class="status" v-if="status">
         <b>Status:</b>
