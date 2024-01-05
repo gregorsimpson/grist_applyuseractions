@@ -10,33 +10,14 @@ body {
   box-sizing: border-box;
 }
 
-.status {
-  padding: 8px;
-  margin-top: 40px;
-  color: blue;
-}
-
-
 #app {
-  margin: 32px 16px;
-}
-
-.description {
-  margin: 16px 0;
-  font-size: 8pt;
 }
 
 .status {
+  margin-top: 20px;
   color: orange;
 }
 
-.button {
-  border: none;
-  border-radius: 6px;
-  background-color: #1486ff;
-  padding: 8px 16px;
-  color: white;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
+.description {
+  font-size: 8pt;
 }
