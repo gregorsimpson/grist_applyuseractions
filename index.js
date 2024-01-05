@@ -1,4 +1,4 @@
-function ready(fn) {
+  function ready(fn) {
   if (document.readyState !== 'loading'){
     fn();
   } else {
@@ -8,6 +8,7 @@ function ready(fn) {
 
 const column = 'UserActions';
 const column2 = 'Trigger';
+var tableId = null;
 let app = undefined;
 let data = {
   status: 'waiting',
@@ -43,6 +44,7 @@ function onRecord(record, mappings) {
     const mapped = grist.mapColumnNames(record);
     // First check if all columns were mapped.
     if (mapped) {
+      colId = Object.keys(record)[0];
       data.input = record[column];
       data.trigger = record[column2];
       let records = {
@@ -52,8 +54,10 @@ function onRecord(record, mappings) {
         }
       }
       if (data.trigger == true) {
-        data.status = `dump: table="${grist.selectedTable}" update="${grist.selectedTable.update}" id="${record['id']}"`;
-        //grist.docApi.applyUserActions(['UpdateRecord', 
+        data.status = `dump: table="${grist.selectedTable}" tableId="${tableId}" colId="${colId}" update="${grist.selectedTable.update}" id="${record['id']}"`;
+        /*grist.docApi.applyUserActions(['UpdateRecord', tableId, record.id {
+          trigger: false
+        }]);*/
         //grist.selectedTable.update(records);
       }
     } else {
@@ -67,13 +71,15 @@ function onRecord(record, mappings) {
 }
 
 ready(function() {
-  // Update the widget anytime the document data changes.
   grist.ready({columns: [
     {name: column, title: "User Actions (list)"},
     {name: column2, title: "Trigger (bool)"}
   ]});
+  // Update the widget anytime the document data changes.
   grist.onRecord(onRecord);
-
+  grist.on('message', (e) => {
+    if (e.tableId) { tableId = e.tableId; }
+  });
   Vue.config.errorHandler = handleError;
   app = new Vue({
     el: '#app',
