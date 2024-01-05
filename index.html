@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Grist Action Button</title>
+    <title>Grist Apply User Actions Widget</title>
 
     <!-- Uses Vue.js and the Grist Plugin API -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.3/vue.min.js"></script>
@@ -13,18 +13,24 @@
   </head>
   <body>
     <div id="app">
-      <div class="status" v-if="status">
-        <template v-if="status === 'waiting'">
-          <p>Waiting for data...</p>
-        </template>
-        <template v-else>
-          {{ status }}
-        </template>
+      <div class="description">
+        This widget will automatically apply user actions from the designated 'UserActions' column
+        as soon as the designated 'Trigger' column has its value set to True. It will also revert
+        said column to False immediately so that actions will trigger just once.<br />
+        <b>That being said, this widget is still very dangerous to use.</b> You should consult
+        <a href="https://github.com/gristlabs/grist-core/blob/main/documentation/overview.md#changes-to-documents">this</a>
+        and
+        <a href="https://github.com/gristlabs/grist-core/blob/main/sandbox/grist/useractions.py">this</a>
+        before you proceed!
       </div>
-      <template v-else>
-        <div class="description">The following user actions will be applied once when the trigger column is set to True: {{input}}</div>
-        <div class="result" v-if="result">{{result}}</div>
-      </template>
+      <div class="status" v-if="status">
+        <b>Status:</b>
+        <pre>{{status}}</pre>
+      </div>
+      <div class="result" v-if="result">
+        <b>Result:</b>
+        <pre>{{result}}</pre>
+      </div>
     </div>
   </body>
 </html>
