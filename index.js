@@ -68,7 +68,7 @@ ready(async function() {
   });
   grist.ready({
     requiredAccess: "full",
-    allowSelectBy: True,
+    allowSelectBy: true,
     columns: [
       {name: col_name_actions, title: "User Actions (list)"},
       {name: col_name_trigger, title: "Trigger (bool)"}
