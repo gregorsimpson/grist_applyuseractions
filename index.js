@@ -35,10 +35,11 @@ async function onRecord(record, mappings) {
       data.trigger = record[colId2];
       data.setSelectedRows = record[colId3];
       data.status = `Selected record: ${tableId}.${colId} at id ${record.id}.\nActions to be applied when trigger fires:\n${data.userActions}`;
-      if (data.setSelectedRows) {
-        grist.setSelectedRows(data.setSelectedRows);
-      }
+      grist.setSelectedRows(record.id);
       if (data.trigger == true) {
+        if (data.setSelectedRows) {
+          grist.setSelectedRows(data.setSelectedRows);
+        }
         //data.status = `FIRE! dump: tableId="${tableId}" colId="${colId}" colId2="${colId2}" id="${record['id']}" trigger="${data.trigger}"`;
         data.status = `Reverting trigger to False...`;
         await grist.docApi.applyUserActions([['UpdateRecord', tableId, record.id, {
