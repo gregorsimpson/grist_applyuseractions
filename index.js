@@ -41,8 +41,9 @@ async function onRecord(record, mappings) {
           [colId2]: false
         }]]);
         data.status = `Done. Now applying actions: ${data.userActions}...`;
-        await grist.docApi.applyUserActions(data.userActions);
-        data.status = `All done.`;
+        data.status = await grist.docApi.applyUserActions(data.userActions);
+        //data.status = `All done.`;
+        //grist.setSelectedRows([1337]);
       }
     } else {
       // Helper returned a null value. It means that not all
@@ -65,8 +66,12 @@ ready(async function() {
     el: '#app',
     data: data
   });
-  grist.ready({columns: [
-    {name: col_name_actions, title: "User Actions (list)"},
-    {name: col_name_trigger, title: "Trigger (bool)"}
-  ]});
+  grist.ready({
+    requiredAccess: "full",
+    allowSelectBy: True,
+    columns: [
+      {name: col_name_actions, title: "User Actions (list)"},
+      {name: col_name_trigger, title: "Trigger (bool)"}
+    ]
+  });
 });
