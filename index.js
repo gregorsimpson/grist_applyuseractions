@@ -37,6 +37,10 @@ async function onRecord(record, mappings) {
       data.status = `Selected record:\n${tableId}.${colId} at id ${record.id}.\nActions to be applied when trigger fires:\n${data.userActions}`;
       urlparams = new URLSearchParams(window.location.search);
       //new URLSearchParams(window.location.search).get('myparam')
+      if (urlparams.has('auawidget_setselectedrows')) {
+        let rows = urlparams.get('auawidget_setselectedrows').split(',');
+        data.setSelectedRows = rows.map(Number);
+      }
       if (data.setSelectedRows) {
         grist.setSelectedRows(data.setSelectedRows);
       }
